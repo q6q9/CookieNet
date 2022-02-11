@@ -23,7 +23,7 @@ export default {
   display: inline-block;
   width: 100px;
   height: 100px;
-  border: 4px solid #000000;
+  border: 4px solid #ffffff;
   animation: loader 2s infinite ease;
 }
 

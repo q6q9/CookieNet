@@ -11,11 +11,11 @@
         >
           <div class="d-flex">
             <img class="img-logo" src="/assets/img/cookie-svgrepo-com.svg" />
-            <h1 class="logo">ookieNet</h1>
+            <h1 class="logo">ookieNet {{$store.state.isAuth?"User":"Guest"}}</h1>
           </div>
         </RouterLink>
         <ul
-          class="nav col-12 col-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0"
+          class="nav col-12 col-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0 me-3"
         >
           <li>
             <RouterLink to="/" class="nav-link px-2 text-secondary"
@@ -38,12 +38,27 @@
           />
         </form>
 
-        <div class="text-end">
-          <RouterLink to="/login" class="btn btn-outline-light me-2"
+        <div
+          v-if="!$store.state.isAuth" class="text-end">
+          <RouterLink
+            v-on:click="$store.commit('logIn')"
+            to="/login"
+            class="btn btn-outline-light me-2"
             >Login
           </RouterLink>
-          <RouterLink to="/sign-up" class="btn btn-warning"
+          <RouterLink
+            v-on:click="$store.commit('signUp')"
+            to="/sign-up"
+            class="btn btn-outline-warning"
             >Sign-up
+          </RouterLink>
+        </div>
+        <div v-else class="text-end">
+          <RouterLink
+            v-on:click="$store.commit('logOut')"
+            to="/"
+            class="btn btn-outline-danger me-2"
+            >Log Out
           </RouterLink>
         </div>
       </div>
@@ -53,10 +68,18 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-
 export default defineComponent({
   name: "TemplateHeader",
+  methods: {
+    logOut() {
+      console.log(123);
+    },
+    logIn() {
+      console.log(321);
+    },
+  }
 });
 </script>
 
-<style scoped></style>
+<style scoped>
+</style>

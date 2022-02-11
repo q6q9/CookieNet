@@ -10,16 +10,25 @@ const router = createRouter({
       path: "/",
       name: "home",
       component: HomeView,
+      meta: {
+        title: "CookieNet",
+      },
     },
     {
       path: "/login",
       name: "login",
       component: LoginView,
+      meta: {
+        title: "Sign in exist account",
+      },
     },
     {
       path: "/sign-up",
       name: "signUp",
       component: SignUpView,
+      meta: {
+        title: "Sign Up",
+      },
     },
     {
       path: "/about",

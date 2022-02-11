@@ -10,21 +10,17 @@ export default defineComponent({
   data() {
     return {
       isRouted: false,
+      pageName: APP_NAME,
     };
   },
   components: { PreLoader, TemplateHeader },
-  mounted() {
-    console.log(PreLoader);
-    setTimeout(() => {
-      this.isRouted = false;
-    }, 1000);
-  },
   watch: {
-    $route() {
-      this.isRouted = true;
-      setTimeout(() => {
-        this.isRouted = false;
-      }, 1000);
+    $route(to) {
+      this.pageName = to.meta.title || APP_NAME;
+      // this.isRouted = true;
+      // setTimeout(() => {
+      //   this.isRouted = false;
+      // }, 0);
     },
   },
 });
@@ -38,18 +34,14 @@ export default defineComponent({
         <section class="breadcrumbs">
           <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-              <h2>Inner Page</h2>
-              <ol>
-                <li><a href="index.html">Home</a></li>
-                <li>Inner Page</li>
-              </ol>
+              <h2>{{ pageName }}</h2>
             </div>
           </div>
         </section>
 
         <section class="inner-page">
           <div class="container">
-            <RouterView />
+            <RouterView itemprop="" />
           </div>
         </section>
       </main>
@@ -81,6 +73,7 @@ export default defineComponent({
       z-index: 0;
       left: 0px;
       top: 0px;
+      background: #000;
     "
   >
     <PreLoader />
