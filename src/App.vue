@@ -17,17 +17,23 @@ export default defineComponent({
   watch: {
     $route(to) {
       this.pageName = to.meta.title || APP_NAME;
-      // this.isRouted = true;
-      // setTimeout(() => {
-      //   this.isRouted = false;
-      // }, 0);
+      this.isRouted = true;
+      setTimeout(() => {
+        this.isRouted = false;
+      }, 300);
     },
+  },
+  mounted() {
+    let authToken = this.$cookies.get("authToken");
+    if (authToken) {
+      this.$store.commit("setAuthToken", authToken);
+    }
   },
 });
 </script>
 
 <template>
-  <div v-if="!isRouted" class="template">
+  <div class="template {{this.isRouted ? 'd-flex' : ''}}">
     <div class="wrapper d-flex flex-column">
       <TemplateHeader />
       <main id="main">
@@ -70,9 +76,9 @@ export default defineComponent({
       width: 100%;
       height: 100%;
       position: fixed;
-      z-index: 0;
-      left: 0px;
-      top: 0px;
+      z-index: 4;
+      left: 0;
+      top: 0;
       background: #000;
     "
   >

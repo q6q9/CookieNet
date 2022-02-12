@@ -11,7 +11,9 @@
         >
           <div class="d-flex">
             <img class="img-logo" src="/assets/img/cookie-svgrepo-com.svg" />
-            <h1 class="logo">ookieNet {{$store.state.isAuth?"User":"Guest"}}</h1>
+            <h1 class="logo">
+              ookieNet {{ $store.state.isAuth ? "User" : "Guest" }}
+            </h1>
           </div>
         </RouterLink>
         <ul
@@ -38,18 +40,11 @@
           />
         </form>
 
-        <div
-          v-if="!$store.state.isAuth" class="text-end">
-          <RouterLink
-            v-on:click="$store.commit('logIn')"
-            to="/login"
-            class="btn btn-outline-light me-2"
+        <div v-if="!$store.state.isAuth" class="text-end">
+          <RouterLink to="/login" class="btn btn-outline-light me-2"
             >Login
           </RouterLink>
-          <RouterLink
-            v-on:click="$store.commit('signUp')"
-            to="/sign-up"
-            class="btn btn-outline-warning"
+          <RouterLink to="/sign-up" class="btn btn-outline-warning"
             >Sign-up
           </RouterLink>
         </div>
@@ -77,9 +72,8 @@ export default defineComponent({
     logIn() {
       console.log(321);
     },
-  }
+  },
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

@@ -3,24 +3,17 @@ import { createStore } from "vuex";
 export default createStore({
   state: {
     isAuth: false,
-    user: {
-      name: "CookaaUser"
-    },
+    authToken: null,
   },
-  getters: {
-    getUser(state) {
-      return state.isAuth ? state.user : {name: "CookaGuest"};
-    },
-  },
+  getters: {},
   mutations: {
+    setAuthToken(state, token) {
+      state.authToken = token;
+      state.isAuth = true;
+    },
     logOut(state) {
       state.isAuth = false;
-    },
-    logIn(state) {
-      state.isAuth = true;
-    },
-    signUp(state) {
-      state.isAuth = true;
+      state.authToken = null;
     },
   },
   actions: {},
