@@ -23,12 +23,6 @@ export default defineComponent({
       }, 300);
     },
   },
-  mounted() {
-    let authToken = this.$cookies.get("authToken");
-    if (authToken) {
-      this.$store.commit("setAuthToken", authToken);
-    }
-  },
 });
 </script>
 

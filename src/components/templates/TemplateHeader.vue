@@ -12,16 +12,17 @@
           <div class="d-flex">
             <img class="img-logo" src="/assets/img/cookie-svgrepo-com.svg" />
             <h1 class="logo">
-              ookieNet {{ $store.state.isAuth ? "User" : "Guest" }}
+              ookieNet {{ $store.state.isAuth ?  : "Guest" }}
             </h1>
           </div>
         </RouterLink>
         <ul
           class="nav col-12 col-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0 me-3"
         >
-          <li>
-            <RouterLink to="/" class="nav-link px-2 text-secondary"
-              >Home
+          <li v-if="$store.state.isAuth" class="">
+            <RouterLink to="/" class="text-white nav-link px-2 text-secondary">
+              <i class="fas fa-user fa-lg me-3 fa-fw me-auto"> </i>
+              Profile
             </RouterLink>
           </li>
           <li>

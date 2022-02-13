@@ -1,13 +1,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
+import type { User } from "@/models/User";
 
 export default defineComponent({
   name: "HomeView",
   data() {
     return {
-      email: "",
-      name: "",
+      user: {} as User,
     };
   },
   methods: {
@@ -20,7 +20,7 @@ export default defineComponent({
     },
   },
   mounted() {
-    let authToken = this.$store.state.authToken;
+    let authToken: string = this.$store.state.authToken;
     if (!authToken) {
       return;
     }
@@ -32,20 +32,14 @@ export default defineComponent({
     }
 
     axios
-      .get(url + "/users/self", {
+      .get<User>(url + "/users/self", {
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + authToken,
         },
       })
       .then((response) => {
-        let user = response.data;
-        if (typeof user !== "object") {
-          console.log(user);
-          return;
-        }
-        this.email = user.email;
-        this.name = user.name;
+        this.user = response.data;
       });
   },
 });
@@ -63,8 +57,8 @@ export default defineComponent({
     </h3>
     User:
     <div>
-      <h4>{{ name }}</h4>
-      <h4>{{ email }}</h4>
+      <h4>{{ user.email }}</h4>
+      <h4>{{ user.name }}</h4>
     </div>
   </main>
 </template>

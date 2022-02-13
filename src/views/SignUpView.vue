@@ -25,7 +25,7 @@
                           >Your Name</label
                         >
                         <input
-                          v-model="name"
+                          v-model="form.name"
                           placeholder="Cucumber"
                           type="text"
                           id="form3Example1c"
@@ -42,7 +42,7 @@
                           >Your Email</label
                         >
                         <input
-                          v-model="email"
+                          v-model="form.email"
                           placeholder="kiwi@hell.net"
                           type="email"
                           id="form3Example3c"
@@ -59,7 +59,7 @@
                           >Password</label
                         >
                         <input
-                          v-model="password"
+                          v-model="form.password"
                           type="password"
                           id="form3Example4c"
                           class="form-control"
@@ -75,7 +75,7 @@
                           >Repeat your password</label
                         >
                         <input
-                          v-model="passwordConfirm"
+                          v-model="form.passwordConfirm"
                           type="password"
                           id="form3Example4cd"
                           class="form-control"
@@ -121,15 +121,13 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import axios from "axios";
+import type UserSignUpForm from "@/forms/UserSignUpForm";
 
 export default defineComponent({
   name: "SignUpView",
   data() {
     return {
-      name: "",
-      email: "",
-      password: "",
-      passwordConfirm: "",
+      form: {} as UserSignUpForm,
     };
   },
   methods: {
@@ -140,32 +138,19 @@ export default defineComponent({
         return;
       }
 
-      interface AuthToken {
-        token: string;
-      }
-
       axios
-        .post<AuthToken>(url + "/auth/sign-up", {
-          name: this.name,
-          email: this.email,
-          password: this.password,
-          headers: {
-            "Content-Type": "application/json",
-          },
+        .post<string>(url + "/auth/sign-up", {
+          ...this.form,
         })
         .then((response) => {
           console.log(response);
           let authToken = response.data;
-          if (typeof authToken !== "string") {
-            alert(123)
-            return;
-          }
+
           this.$cookies.set("authToken", authToken);
           this.$store.commit("setAuthToken", authToken);
         })
         .catch(function (error) {
-          if (error.response.status === 422)
-            alert(error.response.data.message)
+          if (error.response.status === 422) alert(error.response.data.message);
         });
     },
   },

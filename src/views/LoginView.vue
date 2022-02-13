@@ -6,7 +6,9 @@
           <div class="card text-black" style="border-radius: 25px">
             <div class="card-body p-md-5">
               <div class="row justify-content-center">
-                <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1 div-form">
+                <div
+                  class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1 div-form"
+                >
                   <p
                     class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4 d-flex justify-content-center align-items-center"
                   >
@@ -18,14 +20,14 @@
                   </p>
 
                   <form class="mx-1 mx-md-4">
-
                     <div class="d-flex flex-row align-items-center mb-4">
                       <i class="fas fa-envelope fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
                         <label class="form-label" for="form3Example3c"
-                        >Email</label
+                          >Email</label
                         >
                         <input
+                          v-model="form.email"
                           placeholder="banana@paradise.net"
                           type="email"
                           id="form3Example3c"
@@ -39,9 +41,10 @@
                       <i class="fas fa-lock fa-lg me-3 fa-fw"></i>
                       <div class="form-outline flex-fill mb-0">
                         <label class="form-label" for="form3Example4c"
-                        >Password</label
+                          >Password</label
                         >
                         <input
+                          v-model="form.password"
                           type="password"
                           id="form3Example4c"
                           class="form-control"
@@ -56,7 +59,11 @@
                     </div>
 
                     <div class="d-flex justify-content-center mb-3 mb-lg-4">
-                      <button type="button" class="btn btn-outline-dark btn-lg">
+                      <button
+                        @click="signIn"
+                        type="button"
+                        class="btn btn-outline-dark btn-lg"
+                      >
                         Sign In
                       </button>
                     </div>
@@ -79,7 +86,46 @@
     </div>
   </section>
 </template>
+<script lang="ts">
+import { defineComponent } from "vue";
+import type UserSignInForm from "@/forms/UserSignInForm";
+import axios from "axios";
 
+export default defineComponent({
+  name: "LoginView",
+  data() {
+    return {
+      form: {} as UserSignInForm,
+    };
+  },
+  methods: {
+    signIn() {
+      let url = import.meta.env.VITE_API_URL;
+      if (typeof url !== "string") {
+        alert("Error: not exist API_URL");
+        return;
+      }
+
+      axios
+        .post<string>(url + "/auth/sign-in", {
+          ...this.form,
+        })
+        .then((response) => {
+          console.log(response);
+          let authToken = response.data;
+
+          this.$cookies.set("authToken", authToken);
+          this.$store.commit("setAuthToken", authToken);
+        })
+        .catch(function (error) {
+          if (error.response.status === 422) alert(error.response.data.message);
+          if (error.response.status === 401)
+            alert("Incorrect email or password");
+        });
+    },
+  },
+});
+</script>
 <style lang="scss" scoped>
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 
