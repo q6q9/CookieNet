@@ -90,6 +90,7 @@
 import { defineComponent } from "vue";
 import type UserSignInForm from "@/forms/UserSignInForm";
 import axios from "axios";
+import AuthService from "@/services/AuthService";
 
 export default defineComponent({
   name: "LoginView",
@@ -100,27 +101,26 @@ export default defineComponent({
   },
   methods: {
     signIn() {
-      let url = import.meta.env.VITE_API_URL;
-      if (typeof url !== "string") {
-        alert("Error: not exist API_URL");
-        return;
-      }
-
       axios
-        .post<string>(url + "/auth/sign-in", {
+        .post<string>("/auth/sign-in", {
           ...this.form,
         })
         .then((response) => {
-          console.log(response);
-          let authToken = response.data;
-
-          this.$cookies.set("authToken", authToken);
-          this.$store.commit("setAuthToken", authToken);
+          const authToken = response.data;
+          AuthService.setAuthTokenInCookies(authToken);
+          AuthService.setUserByAuthToken(authToken);
         })
         .catch(function (error) {
           if (error.response.status === 422) alert(error.response.data.message);
-          if (error.response.status === 401)
+          else if (error.response.status === 401)
             alert("Incorrect email or password");
+          else
+            alert(
+              `Unknown error: ${error.response.status} - ${
+                error.response.data.message ||
+                JSON.stringify(error.response.data.message)
+              }`
+            );
         });
     },
   },

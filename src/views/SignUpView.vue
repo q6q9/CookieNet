@@ -122,6 +122,7 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 import type UserSignUpForm from "@/forms/UserSignUpForm";
+import AuthService from "@/services/AuthService";
 
 export default defineComponent({
   name: "SignUpView",
@@ -132,25 +133,23 @@ export default defineComponent({
   },
   methods: {
     signUp() {
-      let url = import.meta.env.VITE_API_URL;
-      if (typeof url !== "string") {
-        alert("Error: not exist API_URL");
-        return;
-      }
-
       axios
-        .post<string>(url + "/auth/sign-up", {
+        .post<string>("/auth/sign-up", {
           ...this.form,
         })
         .then((response) => {
-          console.log(response);
-          let authToken = response.data;
-
-          this.$cookies.set("authToken", authToken);
-          this.$store.commit("setAuthToken", authToken);
+          AuthService.setAuthTokenInCookies(response.data);
+          AuthService.setUserByAuthToken(response.data);
         })
         .catch(function (error) {
           if (error.response.status === 422) alert(error.response.data.message);
+          else
+            alert(
+              `Unknown error: ${error.response.status} - ${
+                error.response.data.message ||
+                JSON.stringify(error.response.data.message)
+              }`
+            );
         });
     },
   },

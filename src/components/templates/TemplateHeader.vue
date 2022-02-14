@@ -12,17 +12,17 @@
           <div class="d-flex">
             <img class="img-logo" src="/assets/img/cookie-svgrepo-com.svg" />
             <h1 class="logo">
-              ookieNet {{ $store.state.isAuth ?  : "Guest" }}
+              ookieNet {{ $store.state.user.name || "Guest" }}
             </h1>
           </div>
         </RouterLink>
         <ul
           class="nav col-12 col-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0 me-3"
         >
-          <li v-if="$store.state.isAuth" class="">
+          <li v-if="$store.state.user" class="">
             <RouterLink to="/" class="text-white nav-link px-2 text-secondary">
               <i class="fas fa-user fa-lg me-3 fa-fw me-auto"> </i>
-              Profile
+              {{ $store.state.user.name }}
             </RouterLink>
           </li>
           <li>
@@ -41,7 +41,7 @@
           />
         </form>
 
-        <div v-if="!$store.state.isAuth" class="text-end">
+        <div v-if="!$store.state.user" class="text-end">
           <RouterLink to="/login" class="btn btn-outline-light me-2"
             >Login
           </RouterLink>
@@ -66,14 +66,6 @@
 import { defineComponent } from "vue";
 export default defineComponent({
   name: "TemplateHeader",
-  methods: {
-    logOut() {
-      console.log(123);
-    },
-    logIn() {
-      console.log(321);
-    },
-  },
 });
 </script>
 

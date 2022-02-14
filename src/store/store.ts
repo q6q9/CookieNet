@@ -1,22 +1,17 @@
 import { createStore } from "vuex";
-import type { IState } from "@/store/IState";
-
-const state: IState = {
-  isAuth: false,
-  authToken: null,
-};
+import type { User } from "@/models/User";
 
 export default createStore({
-  state: state,
+  state: {
+    user: {} as User | null,
+  },
   getters: {},
   mutations: {
-    setAuthToken(state, token) {
-      state.authToken = token;
-      state.isAuth = true;
-    },
     logOut(state) {
-      state.isAuth = false;
-      state.authToken = null;
+      state.user = null;
+    },
+    setUser(state, user: User) {
+      state.user = user;
     },
   },
   actions: {},
