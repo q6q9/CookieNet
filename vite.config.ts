@@ -6,7 +6,7 @@ import vue from "@vitejs/plugin-vue";
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    outDir: "D:\\q6q9\\work\\vue\\dist\\q6q9",
+    outDir: "/var/www/dist/cookie-front-dist",
   },
   base: "/q6q9/",
   plugins: [vue()],

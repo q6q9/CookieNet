@@ -11,18 +11,16 @@
         >
           <div class="d-flex">
             <img class="img-logo" src="/assets/img/cookie-svgrepo-com.svg" />
-            <h1 class="logo">
-              ookieNet {{ $store.state.user.name || "Guest" }}
-            </h1>
+            <h1 class="logo">ookieNet {{ $auth.user("name") || "Guest" }}</h1>
           </div>
         </RouterLink>
         <ul
           class="nav col-12 col-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0 me-3"
         >
-          <li v-if="$store.state.user" class="">
+          <li v-if="$auth.user()" class="">
             <RouterLink to="/" class="text-white nav-link px-2 text-secondary">
               <i class="fas fa-user fa-lg me-3 fa-fw me-auto"> </i>
-              {{ $store.state.user.name }}
+              {{ $auth.user("name") }}
             </RouterLink>
           </li>
           <li>
@@ -41,7 +39,7 @@
           />
         </form>
 
-        <div v-if="!$store.state.user" class="text-end">
+        <div v-if="!$auth.user()" class="text-end">
           <RouterLink to="/login" class="btn btn-outline-light me-2"
             >Login
           </RouterLink>
@@ -51,7 +49,7 @@
         </div>
         <div v-else class="text-end">
           <RouterLink
-            v-on:click="$store.commit('logOut')"
+            v-on:click="logOut"
             to="/"
             class="btn btn-outline-danger me-2"
             >Log Out
@@ -64,8 +62,15 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
+
 export default defineComponent({
   name: "TemplateHeader",
+  methods: {
+    logOut() {
+      this.$auth.logOut();
+      this.$router.push("/login");
+    },
+  },
 });
 </script>
 

@@ -122,7 +122,6 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 import type UserSignUpForm from "@/forms/UserSignUpForm";
-import AuthService from "@/services/AuthService";
 
 export default defineComponent({
   name: "SignUpView",
@@ -138,8 +137,9 @@ export default defineComponent({
           ...this.form,
         })
         .then((response) => {
-          AuthService.setAuthTokenInCookies(response.data);
-          AuthService.setUserByAuthToken(response.data);
+          this.$auth.setAuthTokenInCookies(response.data);
+          this.$auth.setUserByAuthToken(response.data);
+          this.$router.push("/");
         })
         .catch(function (error) {
           if (error.response.status === 422) alert(error.response.data.message);

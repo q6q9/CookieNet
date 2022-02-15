@@ -9,10 +9,12 @@ import AuthService from "@/services/AuthService";
 
 axios.defaults.headers.common["Accept"] = "application/json";
 axios.defaults.baseURL = import.meta.env.VITE_API_URL;
-
-AuthService.loadUserFromCookies();
+axios.defaults.withCredentials = false;
 
 const app = createApp(App);
+
+app.config.globalProperties.$auth = new AuthService();
+app.config.globalProperties.$auth.loadUserFromCookies();
 
 app.use(router);
 app.use(store);

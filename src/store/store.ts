@@ -3,14 +3,11 @@ import type { User } from "@/models/User";
 
 export default createStore({
   state: {
-    user: {} as User | null,
+    user: null as User | null,
   },
   getters: {},
   mutations: {
-    logOut(state) {
-      state.user = null;
-    },
-    setUser(state, user: User) {
+    setUser(state, user: User | null) {
       state.user = user;
     },
   },

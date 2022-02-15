@@ -90,7 +90,6 @@
 import { defineComponent } from "vue";
 import type UserSignInForm from "@/forms/UserSignInForm";
 import axios from "axios";
-import AuthService from "@/services/AuthService";
 
 export default defineComponent({
   name: "LoginView",
@@ -107,8 +106,10 @@ export default defineComponent({
         })
         .then((response) => {
           const authToken = response.data;
-          AuthService.setAuthTokenInCookies(authToken);
-          AuthService.setUserByAuthToken(authToken);
+          this.$auth.setAuthTokenInCookies(authToken);
+          this.$auth.setUserByAuthToken(authToken);
+
+          this.$router.push("/");
         })
         .catch(function (error) {
           if (error.response.status === 422) alert(error.response.data.message);
