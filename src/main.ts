@@ -8,7 +8,7 @@ import axios from "axios";
 import AuthService from "@/services/AuthService";
 
 axios.defaults.headers.common["Accept"] = "application/json";
-axios.defaults.baseURL = import.meta.env.VITE_API_URL;
+axios.defaults.baseURL = "https://cookie-net-back.herokuapp.com"; //import.meta.env.VITE_API_URL;
 axios.defaults.withCredentials = false;
 
 const app = createApp(App);
