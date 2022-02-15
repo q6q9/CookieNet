@@ -9,9 +9,23 @@ jobs:
     - uses: actions/setup-node@v2
       with:
         node-version: '14'
-    - id: Build-Vue
-      uses: xRealNeon/VuePagesAction@1.0.1
-      with:
-        username: 'q6q9'
-        reponame: 'q6q9'
-        token: ${{ secrets.GITHUB_TOKEN }}
+      using: "composite"
+      steps:
+          - name: Build Vue
+            run: |
+                  if [ true ==  ${{ inputs.useyarn }} ]; then yarn install --frozen-lockfile; else npm ci; fi
+                  if [ true ==  ${{ inputs.useyarn }} ]; then yarn build; else npm run build; fi
+                  cd dist
+                  ln -s index.html 404.html
+                  if [ "none" !=  ${{ inputs.cname }} ]; then echo '${{ inputs.cname }}' > CNAME; fi
+                  git config --global user.email "${{ inputs.gitemail }}"
+                  git config --global user.name "${{ inputs.gitname }}"
+                  git init
+                  git add -A
+                  git commit -m '${{ inputs.gitmsg }}'
+                  git push -f https://${{ inputs.username }}:${{ inputs.token }}@github.com/${{ inputs.username }}/${{ inputs.reponame }}.git 
+            shell: bash
+            with:
+              username: 'q6q9'
+              reponame: 'q6q9'
+              token: ${{ secrets.GITHUB_TOKEN }}
