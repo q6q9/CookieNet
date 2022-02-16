@@ -2,7 +2,7 @@ name: Build Vue
 on: [push]
 jobs:
   build_vue:
-    environment: CI
+    environment: secret
     runs-on: ubuntu-latest
     name: Build Vue
     steps:
