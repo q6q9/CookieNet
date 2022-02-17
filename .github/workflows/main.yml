@@ -1,0 +1,46 @@
+name: Build Vue
+on: [push]
+jobs:
+  build_vue:
+    environment: secret
+    runs-on: ubuntu-latest
+    name: Build Vue
+    steps:
+    - name: Test
+      run: echo ${{ secrets.SECRET_KEY }}
+    - uses: actions/checkout@v2
+      with:
+          fetch-depth: 0          
+          persist-credentials: false
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+    - name: Build Vue
+      run: |
+            touch .env
+            echo VITE_APP_NAME=CookieNet >> .env
+            echo VITE_API_URL=https://cookie-net-back.herokuapp.com >> .env
+            cat .env
+            
+            npm ci
+            npm run build
+            cd dist
+            ln -s index.html 404.html
+            git config --global user.email "evsvmx@gmail.com"
+            git config --global user.name "evsvmx"
+            git init --initial-branch=main
+            git add -A
+            git commit -m 'deploy'
+            git push -f https://q6q9:${{ secrets.SECRET_KEY }}@github.com/q6q9/q6q9.git
+      shell: bash 
+    #- name: Push changes
+     # uses: ad-m/github-push-action@master
+      #with:
+       # github_token: ${{ secrets.SECRET_KEY }}
+        #repository: q6q9/q6q9
+        #branch: main
+        
+
+
+      
+      
