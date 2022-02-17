@@ -10,7 +10,7 @@
       </thead>
       <tbody>
         <tr v-for="(user, i) in users" :key="user.name">
-          <th scope="row">{{ ++i }}</th>
+          <th scope="row">{{ i + 1 }}</th>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
         </tr>
