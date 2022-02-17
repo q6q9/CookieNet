@@ -17,6 +17,11 @@ jobs:
         node-version: '14'
     - name: Build Vue
       run: |
+            touch .env
+            echo VITE_APP_NAME=CookieNet >> .env
+            echo VITE_API_URL=https://cookie-net-back.herokuapp.com >> .env
+            cat .env
+            
             npm ci
             npm run build
             cd dist
