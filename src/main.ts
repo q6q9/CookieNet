@@ -11,13 +11,13 @@ import RouterService from "@/services/RouterService";
 const axiosService = new AxiosService();
 axiosService.init();
 
-const routerService = new RouterService();
-routerService.init();
-
 const app = createApp(App);
 
 app.config.globalProperties.$auth = new AuthService();
-app.config.globalProperties.$auth.loadUserFromCookies();
+app.config.globalProperties.$auth.loadUserFromCookies().then(function () {
+  const routerService = new RouterService();
+  routerService.init();
+});
 
 app.use(router);
 app.use(store);

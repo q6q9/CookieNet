@@ -4,11 +4,13 @@ import type { SelfUser } from "@/models/SelfUser";
 import axios from "axios";
 
 export default class AuthService {
-  /*static*/ loadUserFromCookies(): void {
+  /*static*/ async loadUserFromCookies(): Promise<void> {
     const usingCookies = useCookies();
     const token = usingCookies.cookies.get("authToken");
 
-    if (token) this.setUserByAuthToken(token);
+    if (token) {
+      return await this.setUserByAuthToken(token);
+    }
   }
 
   /*static*/ setAuthTokenInCookies(token: string): void {
@@ -16,12 +18,14 @@ export default class AuthService {
     usingCookies.cookies.set("authToken", token);
   }
 
-  /*static*/ setUserByAuthToken(token: string): void {
+  /*static*/ async setUserByAuthToken(token: string): Promise<void> {
     axios.defaults.headers.common["Authorization"] = "Bearer " + token;
-
-    axios.get<SelfUser>("/users/self").then((response) => {
+    try {
+      const response = await axios.get<SelfUser>("/users/self");
       store.commit("setUser", response.data);
-    });
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   /*static*/ logOut(): void {
