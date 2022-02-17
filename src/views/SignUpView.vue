@@ -142,12 +142,11 @@ export default defineComponent({
           this.$router.push("/");
         })
         .catch(function (error) {
-          if (error.response.status === 422) alert(error.response.data.message);
-          else
+          if (error.response.status !== 422)
             alert(
               `Unknown error: ${error.response.status} - ${
                 error.response.data.message ||
-                JSON.stringify(error.response.data.message)
+                JSON.stringify(error.response.data)
               }`
             );
         });

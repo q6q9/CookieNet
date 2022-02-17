@@ -1,6 +1,6 @@
 import store from "@/store/store";
 import { useCookies } from "vue3-cookies";
-import type { User } from "@/models/User";
+import type { SelfUser } from "@/models/SelfUser";
 import axios from "axios";
 
 export default class AuthService {
@@ -19,14 +19,14 @@ export default class AuthService {
   /*static*/ setUserByAuthToken(token: string): void {
     axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
-    axios.get<User>("/users/self").then((response) => {
+    axios.get<SelfUser>("/users/self").then((response) => {
       store.commit("setUser", response.data);
     });
   }
 
   /*static*/ logOut(): void {
     store.commit("setUser", null);
-
+    delete axios.defaults.headers.common["Authorization"];
     const usingCookies = useCookies();
     usingCookies.cookies.remove("authToken");
   }
@@ -42,5 +42,9 @@ export default class AuthService {
     if (property) return user[property];
 
     return store.state.user;
+  }
+
+  check(): boolean {
+    return !!this.user();
   }
 }

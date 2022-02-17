@@ -4,12 +4,15 @@ import router from "./router";
 import "bootstrap/scss/bootstrap.scss";
 import store from "@/store/store";
 import VueCookies from "vue3-cookies";
-import axios from "axios";
 import AuthService from "@/services/AuthService";
+import AxiosService from "@/services/AxiosService";
+import RouterService from "@/services/RouterService";
 
-axios.defaults.headers.common["Accept"] = "application/json";
-axios.defaults.baseURL = "https://cookie-net-back.herokuapp.com"; //import.meta.env.VITE_API_URL;
-axios.defaults.withCredentials = false;
+const axiosService = new AxiosService();
+axiosService.init();
+
+const routerService = new RouterService();
+routerService.init();
 
 const app = createApp(App);
 

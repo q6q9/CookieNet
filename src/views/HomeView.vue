@@ -14,7 +14,7 @@ export default defineComponent({
     </h2>
     <h3>
       {{
-        $auth.user()
+        $auth.check()
           ? "What are u gonna do?"
           : "For using our cookies actions u needed log in"
       }}

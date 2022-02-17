@@ -11,21 +11,21 @@
         >
           <div class="d-flex">
             <img class="img-logo" src="/assets/img/cookie-svgrepo-com.svg" />
-            <h1 class="logo">ookieNet {{ $auth.user("name") || "Guest" }}</h1>
+            <h1 class="logo">ookieNet</h1>
           </div>
         </RouterLink>
         <ul
           class="nav col-12 col-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0 me-3"
         >
-          <li v-if="$auth.user()" class="">
+          <li v-if="$auth.check()" class="">
             <RouterLink to="/" class="text-white nav-link px-2 text-secondary">
               <i class="fas fa-user fa-lg me-3 fa-fw me-auto"> </i>
               {{ $auth.user("name") }}
             </RouterLink>
           </li>
-          <li>
-            <RouterLink to="/about" class="nav-link px-2 text-secondary"
-              >About
+          <li v-if="$auth.check()">
+            <RouterLink to="/users" class="nav-link px-2 text-secondary"
+              >Users
             </RouterLink>
           </li>
         </ul>
@@ -39,7 +39,7 @@
           />
         </form>
 
-        <div v-if="!$auth.user()" class="text-end">
+        <div v-if="!$auth.check()" class="text-end">
           <RouterLink to="/login" class="btn btn-outline-light me-2"
             >Login
           </RouterLink>

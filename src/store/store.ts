@@ -1,13 +1,13 @@
 import { createStore } from "vuex";
-import type { User } from "@/models/User";
+import type { SelfUser } from "@/models/SelfUser";
 
 export default createStore({
   state: {
-    user: null as User | null,
+    user: null as SelfUser | null,
   },
   getters: {},
   mutations: {
-    setUser(state, user: User | null) {
+    setUser(state, user: SelfUser | null) {
       state.user = user;
     },
   },

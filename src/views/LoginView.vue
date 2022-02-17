@@ -112,8 +112,7 @@ export default defineComponent({
           this.$router.push("/");
         })
         .catch(function (error) {
-          if (error.response.status === 422) alert(error.response.data.message);
-          else if (error.response.status === 401)
+          if (error.response.status === 401)
             alert("Incorrect email or password");
           else
             alert(
