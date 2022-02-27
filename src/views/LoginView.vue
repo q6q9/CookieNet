@@ -1,3 +1,43 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import type UserSignInForm from "@/forms/UserSignInForm";
+import axios from "axios";
+
+export default defineComponent({
+  name: "LoginView",
+  data() {
+    return {
+      form: {} as UserSignInForm,
+    };
+  },
+  methods: {
+    signIn() {
+      axios
+        .post<string>("/auth/sign-in", {
+          ...this.form,
+        })
+        .then((response) => {
+          const authToken = response.data;
+          this.$auth.setAuthTokenInCookies(authToken);
+          this.$auth.setUserByAuthToken(authToken);
+
+          this.$router.push("/");
+        })
+        .catch(function (error) {
+          if (error.response.status === 401)
+            alert("Incorrect email or password");
+          else
+            alert(
+              `Unknown error: ${error.response.status} - ${
+                error.response.data.message ||
+                JSON.stringify(error.response.data.message)
+              }`
+            );
+        });
+    },
+  },
+});
+</script>
 <template>
   <section class="p-0">
     <div class="container h-100">
@@ -86,46 +126,6 @@
     </div>
   </section>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import type UserSignInForm from "@/forms/UserSignInForm";
-import axios from "axios";
-
-export default defineComponent({
-  name: "LoginView",
-  data() {
-    return {
-      form: {} as UserSignInForm,
-    };
-  },
-  methods: {
-    signIn() {
-      axios
-        .post<string>("/auth/sign-in", {
-          ...this.form,
-        })
-        .then((response) => {
-          const authToken = response.data;
-          this.$auth.setAuthTokenInCookies(authToken);
-          this.$auth.setUserByAuthToken(authToken);
-
-          this.$router.push("/");
-        })
-        .catch(function (error) {
-          if (error.response.status === 401)
-            alert("Incorrect email or password");
-          else
-            alert(
-              `Unknown error: ${error.response.status} - ${
-                error.response.data.message ||
-                JSON.stringify(error.response.data.message)
-              }`
-            );
-        });
-    },
-  },
-});
-</script>
 <style lang="scss" scoped>
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 

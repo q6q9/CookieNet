@@ -1,6 +1,6 @@
 <script lang="ts">
 import TemplateHeader from "@/components/templates/TemplateHeader.vue";
-import PreLoader from "@/components/PreLoader.vue";
+import PreLoader from "@/components/UI/PreLoader.vue";
 import { defineComponent } from "vue";
 
 const APP_NAME = import.meta.env.VITE_APP_NAME;

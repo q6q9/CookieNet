@@ -1,3 +1,8 @@
+<script lang="ts">
+export default {
+  name: "PreLoader",
+};
+</script>
 <template>
   <div class="wrapper">
     <span class="loader">
@@ -5,13 +10,6 @@
     </span>
   </div>
 </template>
-
-<script lang="ts">
-export default {
-  name: "PreLoader",
-};
-</script>
-
 <style lang="scss" scoped>
 .wrapper {
   display: flex;

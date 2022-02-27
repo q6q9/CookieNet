@@ -1,3 +1,39 @@
+<script lang="ts">
+import { defineComponent } from "vue";
+import axios from "axios";
+import type UserSignUpForm from "@/forms/UserSignUpForm";
+
+export default defineComponent({
+  name: "SignUpView",
+  data() {
+    return {
+      form: {} as UserSignUpForm,
+    };
+  },
+  methods: {
+    signUp() {
+      axios
+        .post<string>("/auth/sign-up", {
+          ...this.form,
+        })
+        .then((response) => {
+          this.$auth.setAuthTokenInCookies(response.data);
+          this.$auth.setUserByAuthToken(response.data);
+          this.$router.push("/");
+        })
+        .catch(function (error) {
+          if (error.response.status !== 422)
+            alert(
+              `Unknown error: ${error.response.status} - ${
+                error.response.data.message ||
+                JSON.stringify(error.response.data)
+              }`
+            );
+        });
+    },
+  },
+});
+</script>
 <template>
   <section class="p-0">
     <div class="container h-100">
@@ -118,42 +154,6 @@
     </div>
   </section>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
-import axios from "axios";
-import type UserSignUpForm from "@/forms/UserSignUpForm";
-
-export default defineComponent({
-  name: "SignUpView",
-  data() {
-    return {
-      form: {} as UserSignUpForm,
-    };
-  },
-  methods: {
-    signUp() {
-      axios
-        .post<string>("/auth/sign-up", {
-          ...this.form,
-        })
-        .then((response) => {
-          this.$auth.setAuthTokenInCookies(response.data);
-          this.$auth.setUserByAuthToken(response.data);
-          this.$router.push("/");
-        })
-        .catch(function (error) {
-          if (error.response.status !== 422)
-            alert(
-              `Unknown error: ${error.response.status} - ${
-                error.response.data.message ||
-                JSON.stringify(error.response.data)
-              }`
-            );
-        });
-    },
-  },
-});
-</script>
 <style lang="scss" scoped>
 @import "https://use.fontawesome.com/releases/v5.5.0/css/all.css";
 

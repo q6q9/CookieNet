@@ -5,7 +5,6 @@ export default defineComponent({
   name: "HomeView",
 });
 </script>
-
 <template>
   <main>
     <h2>
