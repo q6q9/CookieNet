@@ -11,7 +11,7 @@ export default defineComponent({
 });
 </script>
 
-<template>
+<template v-if="user">
   <div class="main d-flex">
     <div class="w-25 h-25">
       <div class="d-flex justify-content-end">
@@ -24,12 +24,12 @@ export default defineComponent({
       <div
         class="bg-dark text-white rounded mt-3 py-1 d-flex flex-column justify-content-center"
       >
-        <p class="m-0 p-2 pe-4 text-end">{{ user.name || "..." }}</p>
+        <p class="m-0 p-2 pe-4 text-end">{{ user?.name || "..." }}</p>
       </div>
       <div
         class="bg-dark text-white rounded mt-3 py-1 d-flex flex-column justify-content-center"
       >
-        <p class="m-0 p-2 pe-4 text-end">{{ user.email || "..." }}</p>
+        <p class="m-0 p-2 pe-4 text-end">{{ user?.email || "..." }}</p>
       </div>
     </div>
   </div>
