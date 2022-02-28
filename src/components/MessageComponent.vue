@@ -11,14 +11,17 @@ export default defineComponent({
       type: Object as PropType<Message>,
       required: true,
     },
-    body: {},
+    to: {
+      type: Object as PropType<User>,
+      required: true,
+    },
   },
 });
 </script>
 
 <template>
   <div class="d-flex justify-content-between">
-    <h3>{{ message.author_name }}</h3>
+    <h3>{{ message.is_own ? "You" : to.name }}</h3>
     <h4>{{ message.body }}</h4>
   </div>
 </template>

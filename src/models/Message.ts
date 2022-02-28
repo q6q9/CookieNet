@@ -1,6 +1,6 @@
 export interface Message {
-  // id: number;
-  author_name: string;
+  id: number;
+  is_own: boolean;
   body: string;
-  // created_at: string;
+  created_at: string;
 }

@@ -4,6 +4,8 @@ import { defineComponent } from "vue";
 import type { PropType } from "vue";
 import type { Message } from "@/models/Message";
 import MessageComponent from "@/components/MessageComponent.vue";
+import MessagesService from "@/services/MessagesService";
+import UsersService from "@/services/UsersService";
 
 export default defineComponent({
   name: "UserChatComponent",
@@ -13,20 +15,28 @@ export default defineComponent({
   },
   data: function () {
     return {
-      messages: [] as Message[],
+      messages: [] as Message[] | null,
+      body: String(),
+      toUser: {} as User,
     };
   },
+  methods: {
+    async sendMessage(): Promise<void> {
+      const messagesService = new MessagesService();
+      const to = parseInt(this.$route.params.id.toString());
+      await messagesService.send(to, this.body.toString());
+    },
+  },
   mounted() {
-    let mess: Message = {
-      author_name: "andrew",
-      body: "Привет юзер!",
-    };
+    this.$auth.execAfterFirstUserLoad(async () => {
+      const to = parseInt(this.$route.params.id.toString());
 
-    let mess1: Message = {
-      author_name: "user",
-      body: "Привет Андрей!",
-    };
-    this.messages = [mess, mess1];
+      const messagesService = new MessagesService();
+      messagesService.load(to).then((messages) => (this.messages = messages));
+
+      const userService = new UsersService();
+      userService.load(to).then((user) => (this.toUser = user));
+    });
   },
 });
 </script>
@@ -38,22 +48,23 @@ export default defineComponent({
     <div class="chat__header w-100 pt-3 text-center bg-dark text-white shadow">
       <p>Chat of {{ 1 + withUsersIds.length }} members</p>
     </div>
-
-    <div
-      class="messages"
-      v-for="message of messages"
-      :key="message.author_name"
-    >
-      <MessageComponent
-        :message="message"
-        class="mx-2 my-3 p-3 bg-light rounded"
-      />
+    <div class="h-100">
+      <div class="messages" v-for="message of messages" :key="message.id">
+        <MessageComponent
+          :message="message"
+          :to="toUser"
+          class="mx-2 my-3 p-3 bg-light rounded"
+        />
+      </div>
+      <p class="p-3 text-white" v-if="!messages?.length">Сообщений нет</p>
     </div>
-
-    <div class="panel mt-5 form-group d-flex justify-content-around">
+    <div
+      class="panel form-group d-flex justify-content-around"
+      style="flex: 1 1 auto"
+    >
       <label class="bg-dark text-white p-2">Message:</label>
-      <input type="text" class="form-control" />
-      <button class="btn btn-primary">Send</button>
+      <input v-model="body" type="text" class="form-control" />
+      <button @click="sendMessage" class="btn btn-primary">Send</button>
     </div>
   </div>
 </template>

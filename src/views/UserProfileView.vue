@@ -25,13 +25,14 @@ export default defineComponent({
           this.setUser(this.$auth.user());
         } else {
           const userService = new UsersService();
-          const user = await userService.load(id);
-          if (!user) {
+          try {
+            const user = await userService.load(id);
+            this.setUser(user);
+          } catch (err) {
             alert("Неверный ID юзера");
             this.$router.push("/");
             return;
           }
-          this.setUser(user);
         }
       });
     },
