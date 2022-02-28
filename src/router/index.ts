@@ -3,7 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import SignUpView from "../views/SignUpView.vue";
 import UsersView from "../views/UsersView.vue";
-import SelfView from "../views/SelfView.vue";
+import UserProfileView from "../views/UserProfileView.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -44,9 +44,9 @@ const router = createRouter({
       },
     },
     {
-      path: "/self",
-      name: "self",
-      component: SelfView,
+      path: "/:id",
+      name: "profile",
+      component: UserProfileView,
       meta: {
         title: "Profile",
         requiresAuth: true,

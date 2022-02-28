@@ -32,14 +32,11 @@ export default defineComponent({
         <p class="m-0 p-2 pe-4 text-end">{{ user?.email || "..." }}</p>
       </div>
     </div>
+    <div class="w-100 rounded bg-dark ms-5 text-white p-4">Lorem Ipsum</div>
   </div>
 </template>
 
 <style scoped lang="scss">
-.main * {
-  //margin: 10px;
-}
-
 .border-img {
   width: 25vh;
   height: 25vh;

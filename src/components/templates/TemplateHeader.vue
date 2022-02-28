@@ -23,7 +23,7 @@
         >
           <li v-if="$auth.check()" class="">
             <RouterLink
-              to="/self"
+              :to="{ path: '/' + $auth.user('id') }"
               class="text-white nav-link px-2 text-secondary"
             >
               <i class="fas fa-user fa-lg me-3 fa-fw me-auto"> </i>
