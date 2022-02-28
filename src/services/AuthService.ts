@@ -7,16 +7,16 @@ export default class AuthService {
   // eslint-disable-next-line @typescript-eslint/ban-types
   public subscriberFunctionsOnAuth: Function[];
 
-  private _isFirstLoaded: boolean;
+  private _isLoaded: boolean;
 
   constructor() {
     this.subscriberFunctionsOnAuth = [];
-    this._isFirstLoaded = false;
+    this._isLoaded = false;
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-types
   execAfterFirstUserLoad(func: Function): void {
-    if (this._isFirstLoaded) {
+    if (this._isLoaded) {
       func();
     }
     this.subscriberFunctionsOnAuth.push(func);
@@ -28,6 +28,11 @@ export default class AuthService {
 
     if (token) {
       this.setUserByAuthToken(token);
+    } else {
+      if (!this._isLoaded) {
+        this._isLoaded = true;
+        this.execSubscribers();
+      }
     }
   }
 
@@ -43,8 +48,10 @@ export default class AuthService {
       .then((response) => {
         store.commit("setUser", response.data);
 
-        this._isFirstLoaded = true;
-        this.subscriberFunctionsOnAuth.forEach((func) => func());
+        if (!this._isLoaded) {
+          this._isLoaded = true;
+          this.execSubscribers();
+        }
       })
       .catch((err) => console.log(err));
   }
@@ -71,5 +78,9 @@ export default class AuthService {
 
   check(): boolean {
     return !!this.user();
+  }
+
+  private execSubscribers(): void {
+    this.subscriberFunctionsOnAuth.forEach((func) => func());
   }
 }
