@@ -4,7 +4,7 @@ import type { Message } from "@/models/Message";
 export default class MessagesService {
   async send(to: number, body: string) {
     try {
-      const response = await axios.post("/messages/", {
+      const response = await axios.post("/messages", {
         to: to,
         body: body,
       });
