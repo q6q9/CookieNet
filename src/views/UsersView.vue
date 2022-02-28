@@ -35,13 +35,21 @@ export default defineComponent({
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Email</th>
+          <th scope="col">Created_at</th>
         </tr>
       </thead>
       <tbody>
         <tr v-for="(user, i) in users" :key="user.name">
-          <th scope="row">{{ i + 1 }}</th>
+          <th scope="row">
+            <RouterLink
+              :to="{ path: '/' + user.id }"
+              class="text-decoration-none text-dark"
+              >{{ i + 1 }}
+            </RouterLink>
+          </th>
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
+          <td>{{ user.created_at }}</td>
         </tr>
       </tbody>
     </table>

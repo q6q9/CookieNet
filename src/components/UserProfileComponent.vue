@@ -2,9 +2,13 @@
 import type { User } from "@/models/User";
 import { defineComponent } from "vue";
 import type { PropType } from "vue";
+import UserDescriptionComponent from "@/components/UserDescriptionComponent.vue";
+import UserChatComponent from "@/components/UserChatComponent.vue";
 
 export default defineComponent({
   name: "UserProfileComponent",
+  components: { UserDescriptionComponent, UserChatComponent },
+
   props: {
     user: { type: Object as PropType<User> },
   },
@@ -12,27 +16,10 @@ export default defineComponent({
 </script>
 
 <template v-if="user">
-  <div class="main d-flex">
-    <div class="w-25 h-25">
-      <div class="d-flex justify-content-end">
-        <img
-          class="w-100 bg-dark p-3 rounded"
-          src="/assets/img/avatar-4-svgrepo-com.svg"
-          alt="Profile image"
-        />
-      </div>
-      <div
-        class="bg-dark text-white rounded mt-3 py-1 d-flex flex-column justify-content-center"
-      >
-        <p class="m-0 p-2 pe-4 text-end">{{ user?.name || "..." }}</p>
-      </div>
-      <div
-        class="bg-dark text-white rounded mt-3 py-1 d-flex flex-column justify-content-center"
-      >
-        <p class="m-0 p-2 pe-4 text-end">{{ user?.email || "..." }}</p>
-      </div>
-    </div>
-    <div class="w-100 rounded bg-dark ms-5 text-white p-4">Lorem Ipsum</div>
+  <div class="main d-flex flex-wrap justify-content-center">
+    <UserDescriptionComponent :user="user" class="m-3" />
+
+    <UserChatComponent :with-users-ids="[user?.id || 0]" class="m-3" />
   </div>
 </template>
 
