@@ -14,9 +14,15 @@ export default defineComponent({
     };
   },
   components: { PreLoader, TemplateHeader },
+  methods: {
+    setTitle(title: string): void {
+      document.title = title;
+      this.pageName = title;
+    },
+  },
   watch: {
     $route(to) {
-      this.pageName = to.meta.title || APP_NAME;
+      this.setTitle(to.meta.title || APP_NAME);
       this.isRouted = true;
       setTimeout(() => {
         this.isRouted = false;
@@ -41,7 +47,7 @@ export default defineComponent({
 
         <section class="inner-page">
           <div class="container">
-            <RouterView itemprop="" />
+            <RouterView :setterOfTitle="setTitle" />
           </div>
         </section>
       </main>

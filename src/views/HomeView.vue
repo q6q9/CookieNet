@@ -6,7 +6,7 @@ export default defineComponent({
 });
 </script>
 <template>
-  <main>
+  <div>
     <h2>
       Hi <span class="text-danger">{{ $auth.user("name") }}</span
       >!
@@ -23,5 +23,5 @@ export default defineComponent({
       <h4>{{ $auth.user("email") }}</h4>
       <h4>{{ $auth.user("name") }}</h4>
     </div>
-  </main>
+  </div>
 </template>

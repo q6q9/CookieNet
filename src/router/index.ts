@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import LoginView from "../views/LoginView.vue";
 import SignUpView from "../views/SignUpView.vue";
 import UsersView from "../views/UsersView.vue";
+import SelfView from "../views/SelfView.vue";
 
 const router = createRouter({
   history: createWebHashHistory(),
@@ -21,6 +22,7 @@ const router = createRouter({
       component: LoginView,
       meta: {
         title: "Sign in exist account",
+        requiresNoAuth: true,
       },
     },
     {
@@ -29,6 +31,7 @@ const router = createRouter({
       component: SignUpView,
       meta: {
         title: "Sign Up",
+        requiresNoAuth: true,
       },
     },
     {
@@ -37,6 +40,15 @@ const router = createRouter({
       component: UsersView,
       meta: {
         title: "Users",
+        requiresAuth: true,
+      },
+    },
+    {
+      path: "/self",
+      name: "self",
+      component: SelfView,
+      meta: {
+        title: "Profile",
         requiresAuth: true,
       },
     },

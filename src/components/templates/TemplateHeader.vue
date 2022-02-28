@@ -10,7 +10,11 @@
           class="d-flex align-items-center mb-2 mb-lg-0 text-white text-decoration-none"
         >
           <div class="d-flex">
-            <img class="img-logo" src="/assets/img/cookie-svgrepo-com.svg" />
+            <img
+              class="img-logo"
+              src="/assets/img/cookie-svgrepo-com.svg"
+              alt="Logo"
+            />
             <h1 class="logo">ookieNet</h1>
           </div>
         </RouterLink>
@@ -18,7 +22,10 @@
           class="nav col-12 col-lg-auto ms-lg-auto mb-2 justify-content-center mb-md-0 me-3"
         >
           <li v-if="$auth.check()" class="">
-            <RouterLink to="/" class="text-white nav-link px-2 text-secondary">
+            <RouterLink
+              to="/self"
+              class="text-white nav-link px-2 text-secondary"
+            >
               <i class="fas fa-user fa-lg me-3 fa-fw me-auto"> </i>
               {{ $auth.user("name") }}
             </RouterLink>

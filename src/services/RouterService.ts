@@ -11,6 +11,13 @@ export default class RouterService {
           router.push("/login");
         }
       }
+
+      if (to.matched.some((record) => record.meta.requiresNoAuth)) {
+        if (RouterService.authService.check()) {
+          router.push("/");
+        }
+      }
+
       next();
     });
   }
