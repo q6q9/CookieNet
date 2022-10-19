@@ -1,5 +1,5 @@
-name: Build Vue
-on: [push]
+name: Build Vue3
+on: [push] 
 jobs:
   build_vue:
     environment: secret
