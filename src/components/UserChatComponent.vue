@@ -31,8 +31,10 @@ export default defineComponent({
     this.$auth.execAfterFirstUserLoad(async () => {
       const to = parseInt(this.$route.params.id.toString());
 
-      const messagesService = new MessagesService();
-      messagesService.load(to).then((messages) => (this.messages = messages));
+      setInterval(() => {
+        const messagesService = new MessagesService();
+        messagesService.load(to).then((messages) => (this.messages = messages));  
+      }, 500);
 
       const userService = new UsersService();
       userService.load(to).then((user) => (this.toUser = user));
